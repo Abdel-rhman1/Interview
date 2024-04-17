@@ -28,9 +28,9 @@ dir=
     <style>
         *{
             text-align: @if (app()->getLocale()=='ar')
-                {{"rtl !important"}}
+                {{"right !important"}}
             @else
-                {{"ltr !important"}}
+                {{"left !important"}}
             @endif
         }
     </style>

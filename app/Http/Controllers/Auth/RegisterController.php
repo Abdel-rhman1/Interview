@@ -7,9 +7,8 @@ use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
-use App\Http\Requests\Admin\AdminLoginRequest;
-use App\Http\Requests\Driver\DriverLoginRequest;
+use App\Http\Requests\Admin\AdminRegisterRequest;
+use App\Http\Requests\Driver\DriverRegisterRequest;
 use App\Models\Admin;
 use App\Models\Driver;
 class RegisterController extends Controller
@@ -47,21 +46,7 @@ class RegisterController extends Controller
 
     }
 
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
-    }
-
+   
     public function showAdminRegisterForm()
     {
         return view('auth.register', ['url' => 'admin']);
@@ -72,8 +57,7 @@ class RegisterController extends Controller
         return view('auth.register', ['url' => 'driver']);
     }
 
-
-    protected function createAdmin(AdminLoginRequest $request)
+    protected function createAdmin(AdminRegisterRequest $request)
     {
         $admin = Admin::create([
             'name' => $request['name'],
@@ -83,7 +67,7 @@ class RegisterController extends Controller
         return redirect()->intended('login/admin');
     }
 
-    protected function createDriver(DriverLoginRequest $request)
+    protected function createDriver(DriverRegisterRequest $request)
     {
         $writer = Driver::create([
             'name' => $request['name'],
@@ -93,12 +77,7 @@ class RegisterController extends Controller
         return redirect()->intended('login/driver');
     }
 
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return \App\User
-     */
+   
     protected function create(array $data)
     {
         return User::create([

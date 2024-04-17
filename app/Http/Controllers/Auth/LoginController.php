@@ -13,31 +13,13 @@ class LoginController extends Controller
 
 
     
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
+   
 
     use AuthenticatesUsers;
 
-    /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
+   
     protected $redirectTo = RouteServiceProvider::HOME;
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
@@ -54,9 +36,12 @@ class LoginController extends Controller
 
     public function adminLogin(AdminLoginRequest $request)
     {
-        if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password], $request->get('remember'))) {
 
+        if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password], $request->get('remember'))) {
             return redirect()->intended('/admin');
+        }else{
+            $message = 'InValid Email Or Password';
+            return redirect()->intended('login/admin');
         }
     }
 
@@ -69,6 +54,9 @@ class LoginController extends Controller
         if (Auth::guard('driver')->attempt(['email' => $request->email, 'password' => $request->password], $request->get('remember'))) {
 
             return redirect()->intended('/driver');
+        }else{
+            $message = 'InValid Email Or Password';
+            return redirect()->intended('login/driver')->with('message' , $message);
         }
     }
 

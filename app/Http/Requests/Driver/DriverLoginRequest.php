@@ -28,4 +28,15 @@ class DriverLoginRequest extends FormRequest
             'password'=>'required|min:8',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'email.required'=>'Email Field Is Required',
+            'email.email'=>'Email Field Is InValid',
+            'password.required'=>'Password Field Is Required',
+            'password.min'=>'Password Field Is Less Than 8 digits',
+        ];
+    }
+
 }
